@@ -39,6 +39,7 @@ export async function POST(request: Request) {
         title: body.title,
         type: body.type,
         status: body.status,
+        state_id: body.state_id,
         county: body.county,
         address: body.address,
         description: body.description,
