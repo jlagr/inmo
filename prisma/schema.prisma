@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum property_type {
+  casa
+  departamento
+  terreno
+  casa_en_condominio
+  local
+  bodega
+  duplex
+}
+
+enum property_status {
+  venta
+  renta
+}
+
+model states {
+  id         Int          @id @default(autoincrement())
+  name       String       @unique @db.VarChar(100)
+  properties properties[]
+}
+
+model users {
+  id            Int      @id @default(autoincrement())
+  username      String   @unique @db.VarChar(50)
+  password_hash String   @db.VarChar(255)
+  created_at    DateTime @default(now())
+}
+
+model properties {
+  id             Int              @id @default(autoincrement())
+  title          String           @db.VarChar(255)
+  type           property_type
+  status         property_status
+  state_id       Int
+  state          states           @relation(fields: [state_id], references: [id])
+  county         String           @db.VarChar(100)
+  address        String           @db.VarChar(500)
+  description    String           @db.Text
+  square_meters  Float
+  bedrooms       Int
+  bathrooms      Int
+  parking        Int
+  image          String           @db.VarChar(500)
+  gallery        String[]
+  price          String           @db.VarChar(50)
+  show_price     Boolean          @default(false)
+  lat            Float
+  lng            Float
+  active         Boolean          @default(true)
+  sold           Boolean          @default(false)
+  created_at     DateTime         @default(now())
+  updated_at     DateTime         @updatedAt
+}
